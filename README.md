@@ -1,5 +1,7 @@
 JCMS Lite
 Demo: https://lite.jaehaerys.dev/
+Plugin cart: https://github.com/DevJaehaerys/ingame-cart
+
 
 This is a project for buying items, with authorization through Steam and a shopping cart.
 Requirements
