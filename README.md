@@ -1,4 +1,5 @@
 JCMS Lite
+Demo: https://lite.jaehaerys.dev/
 
 This is a project for buying items, with authorization through Steam and a shopping cart.
 Requirements
@@ -10,8 +11,8 @@ Make sure you have the following software installed on your machine:
 
 Installation
 
-    Run composer install
-    Run npm i
+     composer install
+     npm i
 
 Configuration
 
