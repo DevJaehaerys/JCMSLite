@@ -1,37 +1,51 @@
-JCMS Lite
-Demo: https://lite.jaehaerys.dev/
-Plugin cart: https://github.com/DevJaehaerys/ingame-cart
+<h1 align="center">Welcome to JCMS Lite 👋</h1>
+
+### Built With
+
+[![React][React.js]][React-url]
+[![Laravel][Laravel.com]][Laravel-url]
+<p>
+  <a href="https://jaehaerys.dev/getting-started" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+</p>
+
+> A site for buying items, with authorization through Steam and a shopping cart. For RUST
+
+### ✨ [Demo](https://lite.jaehaerys.dev)
+### ✨ [Plugin to accept item in the game](https://github.com/DevJaehaerys/ingame-cart)
+
+## Install
+
+```sh
+npm i
+composer install
+php artisan migrate
+```
+
+## Usage
+## Configure .env file and config/app.php  | config/services.php 
+```sh
+npm run build
+
+```
+
+## Author
+
+👤 **DevJaehaerys**
+
+* Website: https://jaehaerys.dev
+* Discord: https://discord.gg/djmkFJxe
+* Github: [@DevJaehaerys](https://github.com/DevJaehaerys)
 
 
-This is a project for buying items, with authorization through Steam and a shopping cart.
-Requirements
+## Show your support
 
-Make sure you have the following software installed on your machine:
+Give a ⭐️ if this project helped you!
 
-    PHP 8.1
-    Node 16.5+
-
-Installation
-
-     composer install
-     npm i
-
-Configuration
-
-Before running the project, make sure to configure the following files:
-
-    .env - This file contains the application's environment variables such as database credentials and API keys.
-    config/services.php - This file contains the configuration settings for external services used by the application.
-    config/app.php - This file contains the configuration settings for the application itself, including the API key and IP addresses.
-Make sure to set these files up correctly to ensure the project runs smoothly.
-Usage
-
-To use the project, [insert instructions here].
-Contributors
-
-    DevJaehaerys
-    
-
-License
-
-Apache License 2.0
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
+[Laravel-url]: https://laravel.com
