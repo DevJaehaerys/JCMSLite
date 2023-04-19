@@ -5,6 +5,8 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Payment\QiwiController;
 use App\Http\Controllers\Payment\PayPalController;
+use App\Http\Controllers\Payment\StripeController;
+
 use Inertia\Inertia;
 
 /*
@@ -33,6 +35,8 @@ Route::controller(QiwiController::class)
         Route::post('redirect', 'qiwiRedirect')->name('qiwi.redirect');
     });
 
+
+
 Route::controller(PayPalController::class)
     ->prefix('payment/paypal/')
     ->group(function () {
@@ -41,5 +45,13 @@ Route::controller(PayPalController::class)
         Route::get('payment-success', 'paymentSuccess')->name('success.payment');
     });
 
+
+Route::controller(StripeController::class)
+    ->prefix('payment/stripe/')
+    ->group(function () {
+    Route::post('redirect', 'redirect')->name('stripe.redirect');
+    Route::get('success', 'success')->name('stripe.success');
+    Route::post('webhook', 'webhook')->name('stripe.webhook');
+});
 
 require __DIR__.'/auth.php';
