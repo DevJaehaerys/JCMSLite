@@ -13,6 +13,7 @@
         "laravel/socialite": "^5.6",
         "laravel/tinker": "^2.8",
         "socialiteproviders/steam": "^4.2",
+        "srmklive/paypal": "~3.0",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
