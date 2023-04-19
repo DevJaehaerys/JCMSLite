@@ -12,6 +12,7 @@
 
 ## Ready payment methods
 * [x] PayPal
+* [x] Stripe
 * [x] QIWI
 * [ ] CentApp
 * [ ] FreeKassa
