@@ -10,6 +10,13 @@
   </a>
 </p>
 
+## Ready payment methods
+* [x] PayPal
+* [x] QIWI
+* [ ] CentApp
+* [ ] FreeKassa
+* [ ] YooMoney
+
 > A site for buying items, with authorization through Steam and a shopping cart. For RUST
 
 ### ✨ [Demo](https://lite.jaehaerys.dev)
