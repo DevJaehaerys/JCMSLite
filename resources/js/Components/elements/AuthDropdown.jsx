@@ -1,36 +1,19 @@
+import Payments from "@/Data/Payments";
 import { useState } from 'react';
-import { router } from '@inertiajs/react'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-function AuthDropdown({auth}) {
+import {ToastContainer} from "react-toastify";
+function AuthDropdown({ auth }) {
+    const paymentMethods = { qiwi: true, paypal: true };
+    const buttonLabel = 'Buy';
     const [balance, setBalance] = useState('');
-
-    const handleClick = async () => {
-        try {
-            const response = await router.post('/payment/qiwi/redirect', { Balance: balance });
-        } catch (error) {
-            toast.error(`🦄 `, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-        }
-    };
 
     const handleChange = (event) => {
         setBalance(event.target.value);
     };
 
     return (
-
         <div className="dropdown dropdown-end">
             <ToastContainer />
-            <div className="modal" id="my-modal-3">
+            <div className="modal" id="deposit-modal">
                 <div className="flex items-center justify-center flex-col modal-box">
                     <h3 className="font-bold text-lg">Deposit</h3>
                     <div className="form-control">
@@ -43,10 +26,7 @@ function AuthDropdown({auth}) {
                         </label>
                     </div>
                     <div className="modal-action">
-                        <button className="btn" onClick={handleClick}>
-                            Buy with QIWI
-                        </button>
-                        <a href="#" className="btn">Close</a>
+                        <Payments paymentMethods={paymentMethods} buttonLabel={buttonLabel} balance={balance} handleChange={handleChange} />
                     </div>
                 </div>
             </div>
@@ -58,7 +38,7 @@ function AuthDropdown({auth}) {
             <ul tabIndex={0}
                 className="mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-200 rounded-box w-52">
                 <li>
-                    <a href="#my-modal-3"  className="justify-between">
+                    <a href="#deposit-modal"  className="justify-between">
                         Deposit
                         <span className="badge">$</span>
                     </a>
@@ -68,5 +48,6 @@ function AuthDropdown({auth}) {
         </div>
     );
 }
+
 
 export default AuthDropdown;
