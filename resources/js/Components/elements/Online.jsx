@@ -2,18 +2,24 @@ import { useState, useEffect } from 'react';
 
 const ServerStatus = () => {
     const [playerCount, setPlayerCount] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchPlayerCount = async () => {
             try {
-                const response = await fetch('https://api.battlemetrics.com/servers/6803740');
+                const response = await fetch('/api/online');
+                if (!response.ok) {
+                    throw new Error('Back-end error');
+                }
                 const data = await response.json();
-                setPlayerCount(data.data.attributes.players);
+                setPlayerCount(data);
+                setError(null);
             } catch (error) {
                 console.error(error);
+                setPlayerCount(null);
+                setError('Server not available');
             }
         };
-
         fetchPlayerCount();
         const intervalId = setInterval(fetchPlayerCount, 30000);
 
@@ -22,7 +28,7 @@ const ServerStatus = () => {
 
     return (
         <div>
-            {playerCount === null ? 'Loading...' : `Players Online: ${playerCount}`}
+            {error ? error : (playerCount === null ? 'Loading...' : `Players Online: ${playerCount}`)}
         </div>
     );
 };
