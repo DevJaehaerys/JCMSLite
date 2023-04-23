@@ -1,12 +1,17 @@
+import { useState } from "react";
+import Spinner from "@/Components/elements/Spinner";
 import { router } from '@inertiajs/react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 function Payments({ paymentMethods, buttonLabel, balance }) {
+    const [showSpinner, setShowSpinner] = useState(false);
+
     const handleClick = async (paymentMethod) => {
         try {
+            setShowSpinner(true);
             const response = await router.post(`/payment/${paymentMethod}/redirect`, { Balance: balance });
         } catch (error) {
+            setShowSpinner(false)
             toast.error(`🦄 `, {
                 position: "top-right",
                 autoClose: 5000,
@@ -19,9 +24,10 @@ function Payments({ paymentMethods, buttonLabel, balance }) {
             });
         }
     };
-
     return (
         <div className="flex flex-col justify-center">
+            {showSpinner && <Spinner />}
+
             {paymentMethods.qiwi && (
                 <button className="btn" onClick={() => handleClick('qiwi')}>
                     {buttonLabel} with QIWI
