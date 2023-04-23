@@ -21,15 +21,30 @@ function Payments({ paymentMethods, buttonLabel, balance }) {
     };
 
     return (
-        <div>
+        <div className="flex flex-col justify-center">
             {paymentMethods.qiwi && (
-                <button className="btn mr-2" onClick={() => handleClick('qiwi')}>
+                <button className="btn" onClick={() => handleClick('qiwi')}>
                     {buttonLabel} with QIWI
                 </button>
             )}
             {paymentMethods.paypal && (
-                <button className="btn mr-2" onClick={() => handleClick('paypal')}>
+                <button className="btn" onClick={() => handleClick('paypal')}>
                     {buttonLabel} with PayPal
+                </button>
+            )}
+            {paymentMethods.stripe && (
+                <button className="btn" onClick={() => handleClick('stripe')}>
+                    {buttonLabel} with Stripe
+                </button>
+            )}
+            {paymentMethods.enot && (
+                <button className="btn" onClick={() => handleClick('enot')}>
+                    {buttonLabel} with Enot
+                </button>
+            )}
+            {paymentMethods.fk && (
+                <button className="btn" onClick={() => handleClick('fk')}>
+                    {buttonLabel} with Free Kassa
                 </button>
             )}
             <a href="#" className="btn">Close</a>
