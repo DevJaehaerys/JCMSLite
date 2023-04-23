@@ -5,7 +5,7 @@
 [![React][React.js]][React-url]
 [![Laravel][Laravel.com]][Laravel-url]
 <p>
-  <a href="https://jaehaerys.dev/getting-started" target="_blank">
+  <a href="https://docs.jaehaerys.dev/" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
   </a>
 </p>
@@ -19,9 +19,10 @@
 * [x] EnotIO
 * [ ] YooMoney
 
-> A site for buying items, with authorization through Steam and a shopping cart. For RUST
+> A site for buying items, with authorization through Steam aCancel changesnd a shopping cart. For RUST
 
 ### ✨ [Demo](https://lite.jaehaerys.dev)
+### 🧑‍💻 [Docs](https://docs.jaehaerys.dev/)
 ### ✨ [Plugin to accept item in the game](https://github.com/DevJaehaerys/ingame-cart)
 
 ## Install
