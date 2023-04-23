@@ -33,7 +33,7 @@ class FreeKassaController extends Controller
 
     }
 
-    public function paymentSuccess(Request $request)
+    public function handler(Request $request)
     {
         $client_ip = $request->getClientIp();
         $allowed_ips = ['168.119.157.136', '168.119.60.227', '138.201.88.124', '178.154.197.79'];
