@@ -2,7 +2,7 @@ import Payments from "@/Data/Payments";
 import { useState } from 'react';
 import {ToastContainer} from "react-toastify";
 function AuthDropdown({ auth }) {
-    const paymentMethods = { qiwi: true, paypal: true };
+    const paymentMethods = { qiwi: true, paypal: true, stripe: true, enot: true, fk: true, cent: true };
     const buttonLabel = 'Buy';
     const [balance, setBalance] = useState('');
 
