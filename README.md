@@ -14,8 +14,9 @@
 * [x] PayPal
 * [x] Stripe
 * [x] QIWI
-* [ ] CentApp
-* [ ] FreeKassa
+* [x] CentApp
+* [x] FreeKassa
+* [x] EnotIO
 * [ ] YooMoney
 
 > A site for buying items, with authorization through Steam and a shopping cart. For RUST
