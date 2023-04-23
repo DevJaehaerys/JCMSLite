@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\IpUtils;
 
 class CentAppController extends Controller
 {
@@ -40,6 +41,12 @@ class CentAppController extends Controller
 
     }
     public function handler(Request $request){
+
+        $client_ip = $request->getClientIp();
+        $allowed_ips = ['95.108.213.65', '95.216.41.201'];
+        if (!IpUtils::checkIp($client_ip, $allowed_ips)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
         $object = (object) $request;
         $cent = config('payments');
 
