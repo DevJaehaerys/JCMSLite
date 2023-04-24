@@ -15,4 +15,8 @@ return [
     'enot_merchant_id' => env('ENOT_PROJECT_ID', ''),
     'enot_secret_word' => env('ENOT_SECRET_WORD', ''),
     'enot_secret_word2' => env('ENOT_SECRET_WORD2', ''),
+
+
+    'lava_shop_id' => env('LAVA_SHOP_ID', ''),
+    'lava_secret' => env('LAVA_SECRET', ''),
 ];
