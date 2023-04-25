@@ -16,7 +16,14 @@ return [
     'enot_secret_word' => env('ENOT_SECRET_WORD', ''),
     'enot_secret_word2' => env('ENOT_SECRET_WORD2', ''),
 
-
     'lava_shop_id' => env('LAVA_SHOP_ID', ''),
     'lava_secret' => env('LAVA_SECRET', ''),
+    'lava_secret_2' => env('LAVA_SECRET_2', ''),
+    'lava_jwt' => env('LAVA_JWT', ''),
+    'lava_wallet_id' => env('LAVA_WALLET_ID', ''),
+    'lava_commission' => env('LAVA_COMMISSION', ''),
+    'lava_hook' => env('LAVA_HOOK', ''),
+    'lava_success' => env('LAVA_SUCCESS', ''),
+    'lava_fail' => env('LAVA_FAIL', ''),
+
 ];
