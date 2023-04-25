@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\User;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Inertia\Inertia;
 
 class LavaController extends Controller
 {
@@ -18,43 +22,45 @@ class LavaController extends Controller
             'Balance' => ['required', 'numeric', 'min:1'],
         ]);
         $balance = $validatedData['Balance'];
-        $lava = config('payments');
-
-        $client = new Client([
-            'base_uri' => 'https://api.lava.ru/business/',
-            'timeout' => 5,
-        ]);
-
-        $secretKey = $lava['lava_secret'];
         $user = Auth::user();
+        $lava = config('payments');
+        $jwt = $lava['lava_jwt'];
+        $url = "https://api.lava.ru/invoice/create";
         $data = [
-            'shopId' => $lava['lava_shop_id'],
-            'sum' => $balance['Balance'],
-            'orderId' => $user->name . time(),
-            'hookUrl' => 'https://lite.jaehaerys.dev/payment/lava/webhook',
-            'successUrl' => 'https://lite.jaehaerys.dev/',
-            'failUrl' => 'https://lite.jaehaerys.dev/',
+            'wallet_to' => $lava['lava_wallet_id'],
+            'sum'      => $balance,
+            'order_id' => $user->name . time(),
+            'hookUrl' => $lava['lava_hook'],
+            'successUrl' => $lava['lava_success'],
+            'failUrl' => $lava['lava_fail'],
             'expire' => 300,
-            'customFields' => $user->steamid,
-            'comment' => 'Пополнение баланса пользователя' . $user->name,
-            'includeService' => ['card', 'sbp', 'qiwi'],
+            'subtract' => $lava['lava_commission'],
+            'merchant_id' => '123456789',
+            'merchant_name' => 'JCMS Lite'
         ];
-
-        $json = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-        $signature = hash_hmac('sha256', $json, $secretKey);
-
-        $response = $client->request('POST', 'invoice/create', [
-            'headers' => [
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-                'Signature' => $signature,
-            ],
-            'body' => $json,
-        ]);
-
-        $body = $response->getBody()->getContents();
-        dd($body);
-
+        $response = Http::withHeaders([
+            "Authorization" => $jwt,
+        ])->post($url, $data);
+        $response = $response->json();
+        return Inertia::location($response->url);
+    }
+    public function webhook(Request $request){
+        $data = $request->all();
+        $invoiceId = $data['invoice_id'];
+        $amount = $data['amount'];
+        $lava = config('payments');
+        $payTime = $data['pay_time'];
+        $secretKey = $lava['lava_secret_2'];
+        $signature = md5("$invoiceId:$amount:$payTime:$secretKey");
+        if ($signature === $data['sign']) {
+            $user = User::where('steamid', $data['custom_fields'])->first();
+            if ($user) {
+                $user->balance += $data['amount'];
+                $user->save();
+            }
+            return response()->json(['message' => 'Success'], 200);
+        } else {
+            return response()->json(['message' => 'Bad sign'], 400);
+        }
     }
 }
