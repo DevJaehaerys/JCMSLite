@@ -18,22 +18,27 @@
                     </svg>
                 </a>
                 <h2 class="text-lg font-semibold text-center">Our servers</h2>
-                <Monitoring :serverId="6803740"/>
+                <Monitoring v-for="serverId in servers" :key="serverId" :serverId="serverId" />
             </div>
         </div>
     </div>
 </template>
 
-<script>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
 import Monitoring from "@/Components/User/Elements/Monitoring.vue";
-export default {
-    name: "Drawer",
-    components:{
-      Monitoring
+import {servers} from "@/data/servers";
+
+export default defineComponent({
+    name: 'MonitoringList',
+    components: {
+        Monitoring
     },
-}
+    data() {
+        return {
+            servers
+        };
+    }
+});
 </script>
-
-<style scoped>
-
-</style>
