@@ -35,7 +35,6 @@ export default defineComponent({
     components: { ShopModal },
     props: {
         Items: {
-            type: Object as () => { data: Item[] },
             required: true,
         },
     },
@@ -47,7 +46,7 @@ export default defineComponent({
     },
     computed: {
         filteredItems(): Item[] {
-            let items = this.Items.data;
+            let items = this.Items;
             if (this.search) {
                 items = items.filter((item) =>
                     item.name.toLowerCase().includes(this.search.toLowerCase())
