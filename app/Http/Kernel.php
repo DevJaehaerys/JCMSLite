@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ApiSecurity;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -69,6 +70,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // custom
         'apisecurity' => ApiSecurity::class,
-        'admin' => AdminMiddleware::class
+        'admin' => AdminMiddleware::class,
+        'auth' => AuthMiddleware::class
+
     ];
 }
