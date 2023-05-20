@@ -24,7 +24,10 @@ route::get('/', [PagesController::class, 'index'])->name('index');
 route::get('/shop', [PagesController::class, 'shop'])->name('shop');
 
 route::post('/getItemInfo', [ShopController::class, 'getItem'])->name('getItem');
-route::post('/buyItem', [ShopController::class, 'buyItem'])->name('buyItem');
+
+Route::group(['middleware' => 'auth'], function () {
+   route::post('/buyItem', [ShopController::class, 'buyItem'])->name('buyItem');
+});
 
 Route::controller(PayPalController::class)
     ->prefix('payment/paypal/')
