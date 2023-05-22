@@ -10,19 +10,14 @@ class PagesController extends Controller
 {
     public function shop()
     {
-        $user = auth()->user();
         $items = Shop::all();
         return Inertia::render('Shop', [
-            'auth' => $user,
             'Items' => $items,
         ]);
     }
 
     public function index()
     {
-        $user = auth()->user();
-        return Inertia::render('Home', [
-            'auth' => $user,
-        ]);
+        return Inertia::render('Home');
     }
 }
