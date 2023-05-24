@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ShopController extends Controller
 {
-    public function items()
+    public function getAllItems()
     {
         $items = Shop::with('user')->get();
         return response()->json($items);
     }
-    public function add(Request $request)
+
+    public function addItem(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
@@ -23,6 +24,7 @@ class ShopController extends Controller
             'price' => 'required|numeric',
             'command' => 'required'
         ]);
+
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors()
@@ -39,10 +41,12 @@ class ShopController extends Controller
 
         return response()->json(['success' => true]);
     }
-    public function remove($itemId)
+
+    public function removeItem($id)
     {
-        $item = Shop::findOrFail($itemId);
+        $item = Shop::findOrFail($id);
         $item->delete();
         return response()->json(['success' => true]);
     }
+
 }
