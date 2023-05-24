@@ -8,20 +8,22 @@ use App\Models\Cart;
 use App\Models\User;
 class CartController extends Controller
 {
-    public function items()
+    public function getAllItems()
     {
         $items = Cart::with('user')->get();
         return response()->json($items);
     }
-    public function add($steamid)
+
+    public function getUserCart($id)
     {
-        $user = User::where('steamid', $steamid)->firstOrFail();
+        $user = User::findOrFail($id);
         $items = Cart::where('user_id', $user->id)->with('user')->get();
         return response()->json($items);
     }
-    public function remove($itemId)
+
+    public function removeItem($id)
     {
-        $item = Cart::findOrFail($itemId);
+        $item = Cart::findOrFail($id);
         $item->delete();
         return response()->json(['success' => true]);
     }
