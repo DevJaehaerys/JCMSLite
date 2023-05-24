@@ -17,16 +17,17 @@ use App\Http\Controllers\Api\ShopController;
 Route::group(['middleware' => 'apisecurity'], function () {
 
     Route::prefix('cart')->group(function () {
-        Route::get('items', [CartController::class, 'items']); // get all items
-        Route::get('userItem/{id}', [CartController::class, 'add']); // get user cart by steamid
-        Route::get('removeItem/{id}', [CartController::class, 'remove']); // remove item from cart by ID
+        Route::get('items', [CartController::class, 'getAllItems']); // получить все товары в корзине
+        Route::get('user/{id}', [CartController::class, 'getUserCart']); // получить корзину пользователя по его ID
+        Route::delete('item/{id}', [CartController::class, 'removeItem']); // удалить товар из корзины по его ID
     });
+
     Route::prefix('shop')->group(function () {
-        Route::get('items', [ShopController::class, 'items']); // get all items
-        Route::post('addItem', [ShopController::class, 'add']); // add item to SHOP
-        Route::get('removeItem/{id}', [ShopController::class, 'remove']); // remove item from cart by ID
+        Route::get('items', [ShopController::class, 'getAllItems']); // получить все товары в магазине
+        Route::post('item', [ShopController::class, 'addItem']); // добавить товар в магазин
+        Route::delete('item/{id}', [ShopController::class, 'removeItem']); // удалить товар из магазина по его ID
     });
 
 });
 
-Route::get('/online', [ServerController::class, 'serverData']); // get server online
+Route::get('/online', [ServerController::class, 'serverData']); // получить онлайн сервера
