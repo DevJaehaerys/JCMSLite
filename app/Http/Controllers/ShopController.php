@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class ShopController extends Controller
 {
     public function getItem(Request $request): \Illuminate\Http\JsonResponse
@@ -14,7 +16,7 @@ class ShopController extends Controller
             return response()->json(['message' => 'Invalid item id'], 400);
         }
         $item = Shop::find($itemid);
-        if(!$item) {
+        if (!$item) {
             return response()->json([
                 'message' => 'Item not found'
             ], 404);
@@ -29,11 +31,8 @@ class ShopController extends Controller
         ]);
     }
 
-    function buyItem(Request $request) {
-
-        if (!Auth::check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
-        }
+    function buyItem(Request $request)
+    {
         $itemId = $request->itemid;
         $user = Auth::user();
         $item = Shop::find($itemId);
@@ -46,8 +45,11 @@ class ShopController extends Controller
         ]);
         $itemPrice = $item->price;
         if ($user->balance < $itemPrice * $request->count) {
-            return response()->json(['message' => 'Not enough balance'], 403);
+            $totalSum = $itemPrice * $request->count;
+            $missingSum = $totalSum - $user->balance;
+            return response()->json(['message' => 'Not enough balance', 'missingSum' => $missingSum], 403);
         }
+
         $user->balance -= $itemPrice * $request->count;;
         $user->save();
         $cartItem = new Cart();
@@ -59,6 +61,37 @@ class ShopController extends Controller
         $cartItem->save();
 
         return response()->json(['message' => 'Item bought successfully']);
+    }
+
+    function buyAsCart()
+    {
+        $user = Auth::user();
+        $cart = session()->get('cart', []);
+
+        $totalPrice = 0;
+
+        foreach ($cart as $item) {
+            $totalPrice += $item['total'];
+        }
+        if ($user->balance <= $totalPrice) {
+            return response()->json(['message' => 'Not enough balance', 'missingSum' => $totalPrice - $user->balance], 403);
+        }
+        foreach ($cart as $item) {
+            $itemShop = Shop::find($item['id']);
+            $user->balance -= $itemShop->price * $item['quantity'];
+            $user->save();
+            $cartItem = new Cart();
+            $cartItem->name = $itemShop->name;
+            $cartItem->category = $itemShop->category;
+            $cartItem->command = $itemShop->command;
+            $cartItem->image = $itemShop->image;
+            $cartItem->user()->associate($user);
+            $cartItem->save();
+            if (isset($cart[$item['id']])) {
+                unset($cart[$item['id']]);
+                session()->put('cart', $cart);
+            }
+        }
     }
 
 

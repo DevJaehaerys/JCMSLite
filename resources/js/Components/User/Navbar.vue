@@ -12,7 +12,7 @@
             <div class="block lg:hidden">
                 <div class="navbar-start">
                     <div class="dropdown">
-                        <label tabIndex={0} class="btn btn-ghost btn-circle">
+                        <label tabIndex={0} class="btn btn-ghost btn-circle mr-5">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,6 +27,7 @@
                 </div>
             </div>
             <div class="navbar-end z-50">
+                <Cart  @click="getCart()" :cartItems="cartItems" :totalPrice="totalPrice"/>
                 <ThemeSwitcher/>
                 <AuthDropdown v-if="$page.props.auth" :auth="auth"/>
                 <a v-else href="/login/steam" class="btn">Auth</a>
@@ -39,6 +40,8 @@
 import LinkList from "@/Components/User/Elements/LinkList.vue";
 import ThemeSwitcher from "@/Components/User/Elements/ThemeSwitcher.vue";
 import AuthDropdown from "@/Components/User/Elements/AuthDropdown.vue";
+import Cart from "@/Components/User/Elements/Cart.vue";
+import axios from "axios";
 
 export default {
     name: "Navbar",
@@ -46,12 +49,49 @@ export default {
         AuthDropdown,
         LinkList,
         ThemeSwitcher,
+        Cart
+    },
+    data(){
+        return{
+            cartItems:[],
+            totalPrice: null,
+        }
     },
     props: {
         auth: {
             type: Object,
             required: false,
         },
+    },
+    methods: {
+        getCart() {
+            axios.get("/getCart")
+                .then(response => {
+                    if (response.status === 200) {
+                        this.cartItems = response.data.cartItems;
+                        this.totalPrice = response.data.totalPrice;
+                    }
+                }).catch(error => {
+                if (error.response) {
+                    if (error.response.status === 401) {
+                        notify({
+                            group: "error",
+                            title: "Unauthorized",
+                            text: "Unauthorized"
+                        }, 4000)
+                    } else if (error.response.status === 404) {
+                        notify({
+                            group: "error",
+                            title: "Item not found",
+                            text: "Item not found"
+                        }, 4000)
+                    }
+                } else {
+                    console.log(error);
+                }
+            });
+        }
+
     },
 }
 </script>

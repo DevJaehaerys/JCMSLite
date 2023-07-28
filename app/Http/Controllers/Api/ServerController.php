@@ -30,4 +30,37 @@ class ServerController extends Controller
         $serverInfo = $query->GetInfo();
         return response()->json($serverInfo);
     }
+
+    public function leaders(Request $request)
+    {
+        $sort = $request->input('sort', 'UserID');
+        $order = $request->input('order', 'asc');
+        $search = $request->input('search', '');
+        $exclude = ['Admin'];
+
+        $limit = $request->input('limit', 10);
+
+        if (!in_array($sort, $exclude)) {
+            $players = DB::table('playerranksdb')
+                ->orderBy($sort, $order);
+
+            if (!empty($search)) {
+                $players->where(function($query) use ($search) {
+                    $query->where('UserID', 'LIKE', '%'.$search.'%')
+                        ->orWhere('Name', 'LIKE', '%'.$search.'%');
+                });
+            }
+
+            foreach ($exclude as $column) {
+                $players->select(array_diff((array)DB::raw('playerranksdb.*'), [$column]));
+            }
+
+            $players = $players->paginate($limit);
+
+            return response()->json($players);
+        } else {
+            return response()->json(['error' => 'Invalid sorting column.'], 400);
+        }
+    }
+
 }

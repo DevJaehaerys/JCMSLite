@@ -15,4 +15,22 @@ export const links = [
         title: "Shop page",
         description: "This is the shop page",
     },
+    {
+        name: "Blank",
+        link: "/blank",
+        title: "Blank page",
+        description: "Blank page",
+    },
+    {
+        name: "Leaders",
+        link: "/leaders",
+        title: "Leaders page",
+        description: "Leaders page",
+    },
+    {
+        name: "Banlist",
+        link: "/banlist",
+        title: "Banlist page",
+        description: "There banned users",
+    },
 ];

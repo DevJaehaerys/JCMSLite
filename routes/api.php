@@ -28,6 +28,8 @@ Route::group(['middleware' => 'apisecurity'], function () {
         Route::delete('item/{id}', [ShopController::class, 'removeItem']); // удалить товар из магазина по его ID
     });
 
+
 });
 
-Route::get('/online', [ServerController::class, 'serverData']); // получить онлайн сервера
+Route::get('/online', [ServerController::class, 'serverData']); // get server online
+Route::get('/leaders', [ServerController::class, 'leaders']); // get leaders
